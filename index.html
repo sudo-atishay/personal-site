@@ -5,14 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>💾 Atishay Jain</title>
   <link rel="stylesheet" href="./index.css" />
+
+  <!-- 🎓 Research-style serif font -->
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     /* Inline fallback if CSS fails */
-    body { background:#000; color:#ddd; font-family:Georgia,serif; }
+    body {
+      background: #000;
+      color: #ddd;
+      font-family: "EB Garamond", Georgia, serif;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Atishay Jain</h1>
+    <h1><a href="./" id="home-link">Atishay Jain</a></h1>
     <nav>
       <a href="./blog.md">blog</a>
       <a href="./about.md">about</a>
@@ -74,6 +82,23 @@
         loadMarkdown(path);
         window.history.pushState({ path }, '', path);
       });
+    });
+
+    // Handle home click (resets to original homepage content)
+    document.getElementById('home-link').addEventListener('click', e => {
+      e.preventDefault();
+      window.history.pushState({}, '', './');
+      content.innerHTML = `
+        <article>
+          <h2>About this site!</h2>
+          <p>
+            This is a small place where I share about tech stuff I’m using and learning. 
+            I previously had a blog written in React which was heavy and not quick to customize. 
+            After exploring some really cool minimalist blogs and codebases, I realized something this simple 
+            doesn’t need complexity. So, I went with a static site setup using plain HTML, CSS, and Markdown.
+          </p>
+        </article>
+      `;
     });
 
     // Browser back/forward navigation
