@@ -1,15 +1,3 @@
 # About Me
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.  
-Praesent euismod, tortor ut commodo lacinia, lorem eros egestas augue, vel faucibus magna ligula sed urna.
-
-## My Journey
-
-Curabitur euismod justo id dolor blandit, vitae dictum nisi tincidunt.  
-Donec sit amet tincidunt nisi. Integer pretium ex ac tellus vestibulum finibus.
-
-## Skills
-
-- Writing clean, semantic HTML  
-- Designing responsive layouts  
-- Loving the simplicity of static websites
+I am a Cloud and Data Security Analyst based in US with a Master's Degree in Software Engineering. I am passionate about this domain and outside this I like to do Running which I've been a practitioner since 6+ years.

@@ -1,10 +1,6 @@
 # Contact
+Feel free to reach out!
 
-Get in touch via email or social links below — or just imagine a contact form!
-
-- **Email:** lorem@ipsum.com  
-- **GitHub:** [github.com/example](https://github.com/example)  
-- **LinkedIn:** [linkedin.com/in/example](https://linkedin.com/in/example)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.  
-Sed fermentum, nulla ut hendrerit faucibus, elit mi varius elit, non bibendum nisl ipsum ac urna.
+- **Email:** atishay2305@gmail.com  
+- **GitHub:** [github.com/sudo-atishay](https://github.com/sudo-atishay)  
+- **LinkedIn:** [linkedin.com/in/atishay23](https://linkedin.com/in/atishay23)
