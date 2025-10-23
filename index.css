@@ -1,0 +1,119 @@
+/* === Retro Minimal Dark Theme === */
+
+body {
+  background-color: #000;
+  color: #ddd;
+  font-family: "Georgia", "Times New Roman", serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+header {
+  background-color: #111;
+  color: #fff;
+  text-align: left;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #222;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Nav */
+nav {
+  margin-top: 0.5rem;
+}
+
+nav a {
+  color: #4da3ff;
+  text-decoration: underline;
+  margin-right: 1rem;
+  font-size: 1rem;
+}
+
+nav a:hover {
+  color: #82c6ff;
+}
+
+/* Main content */
+main {
+  max-width: 750px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+main h1, main h2, main h3 {
+  color: #fff;
+}
+
+main a {
+  color: #4da3ff;
+  text-decoration: underline;
+}
+
+main a:hover {
+  color: #82c6ff;
+}
+
+main p {
+  color: #ccc;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  color: #888;
+  padding: 1rem;
+  border-top: 1px solid #222;
+  font-size: 0.9rem;
+  background-color: #111;
+}
+
+footer a {
+  color: #4da3ff;
+  margin: 0 0.5rem;
+  text-decoration: underline;
+}
+
+footer a:hover {
+  color: #82c6ff;
+}
+
+/* Lists */
+ul, ol {
+  margin-left: 2rem;
+}
+
+/* Code / Pre */
+pre, code {
+  background-color: #111;
+  color: #0f0;
+  font-family: "Courier New", monospace;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  header, main {
+    padding: 1rem;
+  }
+  nav a {
+    display: inline-block;
+    margin: 0.25rem 0.5rem;
+  }
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💾 My Retro Website :)</title>
+  <link rel="stylesheet" href="./index.css" />
+  <style>
+    /* Inline fallback if CSS fails */
+    body { background:#000; color:#ddd; font-family:Georgia,serif; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>💾 My Retro Website :)</h1>
+    <nav>
+      <a href="./blog.md">blog</a>
+      <a href="./about.md">about</a>
+      <a href="./contact.md">contact</a>
+    </nav>
+  </header>
+
+  <main id="content">
+    <article>
+      <h2>Welcome!</h2>
+      <p>
+        This minimalist retro-style website is powered by Markdown and pure HTML.
+        Click a link above to load Markdown content dynamically — no frameworks, just vibes.
+      </p>
+    </article>
+  </main>
+
+  <footer>
+    <p>© 2025 · <a href="#">contact</a> · <a href="#">legal</a> · <a href="#">feed</a></p>
+  </footer>
+
+  <!-- Markdown parser -->
+  <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+
+  <script>
+    const content = document.getElementById('content');
+    const converter = new showdown.Converter({
+      tables: true,
+      simplifiedAutoLink: true,
+      strikethrough: true,
+      tasklists: true
+    });
+
+    // Load Markdown and convert to HTML
+    async function loadMarkdown(path) {
+      try {
+        const res = await fetch(path);
+        if (!res.ok) throw new Error('File not found');
+        const text = await res.text();
+        const html = converter.makeHtml(text);
+        content.style.opacity = 0;
+        setTimeout(() => {
+          content.innerHTML = html;
+          content.style.opacity = 1;
+        }, 100);
+        window.scrollTo(0, 0);
+      } catch (err) {
+        content.innerHTML = `<p style="color:#f55;">⚠️ Unable to load ${path}</p>`;
+      }
+    }
+
+    // Handle nav clicks
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const path = e.target.getAttribute('href');
+        loadMarkdown(path);
+        window.history.pushState({ path }, '', path);
+      });
+    });
+
+    // Browser back/forward navigation
+    window.addEventListener('popstate', e => {
+      if (e.state && e.state.path) loadMarkdown(e.state.path);
+      else showHome();
+    });
+
+    // Fallback: show homepage again
+    function showHome() {
+      content.innerHTML = `
+        <article>
+          <h2>Welcome!</h2>
+          <p>This is a minimalist retro-style Markdown-powered site.</p>
+        </article>
+      `;
+    }
+
+    // Fallback for direct access (e.g., opening /blog.md directly)
+    if (location.pathname.endsWith('.md')) {
+      const path = location.pathname.split('/').pop();
+      loadMarkdown(path);
+    } else {
+      showHome();
+    }
+  </script>
+</body>
+</html>
