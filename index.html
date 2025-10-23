@@ -24,13 +24,16 @@
     <article>
       <h2>About this site!</h2>
       <p>
-        This is a small place I share about tech stuff I am using and learning. I had a earlier blog written in React which was firstly very heavy and bloated but also was not very quick to customize. [not a skill issue]. After going over some really cool blogs by people and looking at their codebases, I realized, something so simple and static like this, doesnt need to be complicated. I went with a static website generator that uses simple markdown files.
+        This is a small place where I share about tech stuff I’m using and learning. 
+        I previously had a blog written in React which was heavy and not quick to customize. 
+        After exploring some really cool minimalist blogs and codebases, I realized something this simple 
+        doesn’t need complexity. So, I went with a static site setup using plain HTML, CSS, and Markdown.
       </p>
     </article>
   </main>
 
   <footer>
-    <p>© 2025 </p>
+    <p>© 2025</p>
   </footer>
 
   <!-- Markdown parser -->
@@ -76,25 +79,12 @@
     // Browser back/forward navigation
     window.addEventListener('popstate', e => {
       if (e.state && e.state.path) loadMarkdown(e.state.path);
-      else showHome();
     });
 
-    // Fallback: show homepage again
-    function showHome() {
-      content.innerHTML = `
-        <article>
-          <h2>Welcome!</h2>
-          <p>This is a minimalist retro-style Markdown-powered site.</p>
-        </article>
-      `;
-    }
-
-    // Fallback for direct access (e.g., opening /blog.md directly)
+    // Only load Markdown if directly accessing one
     if (location.pathname.endsWith('.md')) {
       const path = location.pathname.split('/').pop();
       loadMarkdown(path);
-    } else {
-      showHome();
     }
   </script>
 </body>
