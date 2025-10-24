@@ -59,9 +59,9 @@
   <header>
     <h1><a href="./" id="home-link">Atishay Jain</a></h1>
     <nav>
-      <a href="about" data-md="about.md">about</a>
-      <a href="blog" data-md="blog.md">blog</a>
-      <a href="contact" data-md="contact.md">contact</a>
+      <a href="#about" data-md="about.md">about</a>
+      <a href="#blog" data-md="blog.md">blog</a>
+      <a href="#contact" data-md="contact.md">contact</a>
     </nav>
   </header>
 
@@ -91,9 +91,9 @@
       tasklists: true
     });
 
-    async function loadMarkdown(path) {
+    async function loadMarkdown(file) {
       try {
-        const res = await fetch(`./content/${path}`);
+        const res = await fetch(`./content/${file}`);
         if (!res.ok) throw new Error('File not found');
         const text = await res.text();
         const html = converter.makeHtml(text);
@@ -102,53 +102,40 @@
           content.innerHTML = html;
           content.style.opacity = 1;
         }, 100);
-      } catch {
-        content.innerHTML = `<p style="color:#f55;">⚠️ Could not load ${path}</p>`;
+      } catch (err) {
+        content.innerHTML = `<p style="color:#f55;">⚠️ Could not load ${file}</p>`;
       }
     }
 
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const file = e.target.dataset.md;
-        loadMarkdown(file);
-        window.history.pushState({ file }, '', e.target.getAttribute('href'));
-      });
-    });
-
-    document.getElementById('home-link').addEventListener('click', e => {
-      e.preventDefault();
-      window.history.pushState({}, '', './');
-      content.innerHTML = `
-        <article>
-          <h2>About this site!</h2>
-          <p>
-            This is a small place where I share about tech stuff I’m using and learning. 
-            I previously had a blog written in React which was heavy and not quick to customize. 
-            After exploring some really cool minimalist blogs and codebases, I realized something this simple 
-            doesn’t need complexity. So, I went with a static site setup using plain HTML, CSS, and Markdown.
-          </p>
-        </article>
-      `;
-    });
-
-    window.addEventListener('popstate', e => {
-      if (e.state && e.state.file) {
-        loadMarkdown(e.state.file);
+    function handleRoute() {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        const map = {
+          'about': 'about.md',
+          'blog': 'blog.md',
+          'contact': 'contact.md'
+        };
+        if (map[hash]) {
+          loadMarkdown(map[hash]);
+        }
       } else {
-        document.getElementById('home-link').click();
+        // default home
+        content.innerHTML = `
+          <article>
+            <h2>About this site!</h2>
+            <p>
+              This is a small place where I share about tech stuff I’m using and learning. 
+              I previously had a blog written in React which was heavy and not quick to customize. 
+              After exploring some really cool minimalist blogs and codebases, I realized something this simple 
+              doesn’t need complexity. So, I went with a static site setup using plain HTML, CSS, and Markdown.
+            </p>
+          </article>
+        `;
       }
-    });
-
-    const path = location.pathname.split('/').pop();
-    if (path && path !== 'index.html' && path !== '') {
-      const map = {
-        'about': 'about.md',
-        'blog': 'blog.md',
-        'contact': 'contact.md'
-      };
-      if (map[path]) loadMarkdown(map[path]);
     }
+
+    window.addEventListener('hashchange', handleRoute);
+    window.addEventListener('load', handleRoute);
   </script>
 </body>
 </html>
