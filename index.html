@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Atishay Jain</title>
   <link rel="stylesheet" href="./index.css" />
-
-  <!-- 🎓 Research-style serif font -->
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -61,9 +59,9 @@
   <header>
     <h1><a href="./" id="home-link">Atishay Jain</a></h1>
     <nav>
-      <a href="about.md" data-md="about">about</a>
-      <a href="blog.md" data-md="blog">blog</a>
-      <a href="contact.md" data-md="contact">contact</a>
+      <a href="about" data-md="about.md">about</a>
+      <a href="blog" data-md="blog.md">blog</a>
+      <a href="contact" data-md="contact.md">contact</a>
     </nav>
   </header>
 
@@ -93,10 +91,9 @@
       tasklists: true
     });
 
-    // Load Markdown dynamically from /content folder
-    async function loadMarkdown(file) {
+    async function loadMarkdown(path) {
       try {
-        const res = await fetch(`./content/_${file}.md`);
+        const res = await fetch(`./content/${path}`);
         if (!res.ok) throw new Error('File not found');
         const text = await res.text();
         const html = converter.makeHtml(text);
@@ -105,23 +102,20 @@
           content.innerHTML = html;
           content.style.opacity = 1;
         }, 100);
-        window.scrollTo(0, 0);
-      } catch (err) {
-        content.innerHTML = `<p style="color:#f55;">⚠️ Unable to load ${file}</p>`;
+      } catch {
+        content.innerHTML = `<p style="color:#f55;">⚠️ Could not load ${path}</p>`;
       }
     }
 
-    // Handle nav clicks (stay on .md URLs)
     document.querySelectorAll('nav a').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
         const file = e.target.dataset.md;
         loadMarkdown(file);
-        window.history.pushState({ file }, '', `${file}.md`);
+        window.history.pushState({ file }, '', e.target.getAttribute('href'));
       });
     });
 
-    // Handle home click
     document.getElementById('home-link').addEventListener('click', e => {
       e.preventDefault();
       window.history.pushState({}, '', './');
@@ -138,7 +132,6 @@
       `;
     });
 
-    // Handle browser back/forward
     window.addEventListener('popstate', e => {
       if (e.state && e.state.file) {
         loadMarkdown(e.state.file);
@@ -147,11 +140,14 @@
       }
     });
 
-    // Detect direct URL access (e.g. refresh on /about.md)
-    const current = location.pathname.split('/').pop();
-    if (current && current.endsWith('.md')) {
-      const file = current.replace('.md', '');
-      loadMarkdown(file);
+    const path = location.pathname.split('/').pop();
+    if (path && path !== 'index.html' && path !== '') {
+      const map = {
+        'about': 'about.md',
+        'blog': 'blog.md',
+        'contact': 'contact.md'
+      };
+      if (map[path]) loadMarkdown(map[path]);
     }
   </script>
 </body>
