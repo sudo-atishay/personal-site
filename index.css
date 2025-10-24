@@ -1,70 +1,111 @@
-/* === Retro Minimal Dark Theme === */
+/* === Retro Research Theme === */
+
+/* Font setup */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600&display=swap');
+
+:root {
+  --bg: #0b0b0b;
+  --bg-alt: #111;
+  --text: #dcd3c8;
+  --text-light: #f2ede6;
+  --accent: #82b1ff;
+  --accent-hover: #a7c5ff;
+  --secondary: #f3b964;
+  --border: #222;
+}
 
 body {
-  background-color: #000;
-  color: #ddd;
-  font-family: "Georgia", "Times New Roman", serif;
-  line-height: 1.6;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "EB Garamond", serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
   margin: 0;
   padding: 0;
 }
 
 /* Header */
 header {
-  background-color: #111;
-  color: #fff;
-  text-align: left;
+  background-color: var(--bg-alt);
   padding: 1rem 2rem;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--border);
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+h1, h2, h3 {
+  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--text-light);
+  letter-spacing: 0.3px;
+  margin-bottom: 0.5rem;
 }
 
-/* Nav */
+h1 a {
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+h1 a:hover {
+  color: var(--secondary);
+  text-shadow: 0 0 6px rgba(243,185,100,0.3);
+}
+
+/* Navigation */
 nav {
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
 }
 
 nav a {
-  color: #4da3ff;
-  text-decoration: underline;
+  color: var(--accent);
   margin-right: 1rem;
-  font-size: 1rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
 nav a:hover {
-  color: #82c6ff;
+  color: var(--accent-hover);
+  text-shadow: 0 0 5px rgba(130,177,255,0.4);
 }
 
-/* Main content */
+/* Main Content */
 main {
   max-width: 750px;
   margin: 2rem auto;
-  padding: 0 1.5rem;
-  animation: fadeIn 0.4s ease-in-out;
-}
-
-main h1, main h2, main h3 {
-  color: #fff;
+  padding: 1.5rem;
+  background-color: rgba(20, 20, 20, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.02);
+  transition: background 0.4s ease;
 }
 
 main a {
-  color: #4da3ff;
+  color: var(--accent);
   text-decoration: underline;
 }
 
 main a:hover {
-  color: #82c6ff;
+  color: var(--secondary);
 }
 
-main p {
-  color: #ccc;
+p {
+  margin: 1rem 0;
+  color: var(--text);
+}
+
+/* Lists */
+ul, ol {
+  margin-left: 2rem;
+  color: var(--text);
+}
+
+/* Code blocks */
+code, pre {
+  background-color: #1b1b1b;
+  color: #f3b964;
+  font-family: "Courier New", monospace;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
 }
 
 /* Footer */
@@ -72,48 +113,37 @@ footer {
   text-align: center;
   color: #888;
   padding: 1rem;
-  border-top: 1px solid #222;
-  font-size: 0.9rem;
-  background-color: #111;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  background-color: var(--bg-alt);
 }
 
 footer a {
-  color: #4da3ff;
+  color: var(--accent);
   margin: 0 0.5rem;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 footer a:hover {
-  color: #82c6ff;
+  color: var(--secondary);
+  text-shadow: 0 0 5px rgba(243,185,100,0.3);
 }
 
-/* Lists */
-ul, ol {
-  margin-left: 2rem;
+/* Fade transition */
+#content {
+  transition: opacity 0.4s ease-in-out;
 }
 
-/* Code / Pre */
-pre, code {
-  background-color: #111;
-  color: #0f0;
-  font-family: "Courier New", monospace;
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-}
-
-/* Fade animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive tweaks */
-@media (max-width: 600px) {
-  header, main {
+/* Responsive */
+@media (max-width: 700px) {
+  header {
+    padding: 1rem;
+  }
+  main {
     padding: 1rem;
   }
   nav a {
     display: inline-block;
-    margin: 0.25rem 0.5rem;
+    margin: 0.25rem 0.75rem 0.25rem 0;
   }
 }

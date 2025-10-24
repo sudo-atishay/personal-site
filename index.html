@@ -10,51 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      background: #000;
-      color: #ddd;
-      font-family: "EB Garamond", Georgia, serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #222;
-    }
-
-    header h1 a {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    nav a {
-      color: #ccc;
-      text-decoration: none;
-      margin-left: 1rem;
-      transition: color 0.2s;
-    }
-
-    nav a:hover {
-      color: #fff;
-    }
-
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      transition: opacity 0.3s ease;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 0;
-      border-top: 1px solid #222;
-      color: #777;
-    }
+    /* Inline fallback if CSS fails */
+    body { background:#000; color:#ddd; font-family:Georgia,serif; }
   </style>
 </head>
 <body>
@@ -121,7 +78,7 @@
       });
     });
 
-    // Handle home click
+    // Handle home click (resets to original homepage content)
     document.getElementById('home-link').addEventListener('click', e => {
       e.preventDefault();
       window.history.pushState({}, '', './');
@@ -138,25 +95,28 @@
       `;
     });
 
-    // Handle browser back/forward
+    // Browser back/forward navigation
     window.addEventListener('popstate', e => {
-      if (e.state && e.state.file) {
-        loadMarkdown(e.state.file);
-      } else {
-        document.getElementById('home-link').click();
-      }
+      if (e.state && e.state.path) loadMarkdown(e.state.path);
+      else showHome();
     });
 
-    // Detect direct URL access like /about or /blog
-    const currentPath = location.pathname.split('/').pop();
-    if (currentPath && currentPath !== 'index.html' && currentPath !== '') {
-      const page = currentPath.replace('/', '');
-      const map = {
-        'about': 'about.md',
-        'blog': 'blog.md',
-        'contact': 'contact.md'
-      };
-      if (map[page]) loadMarkdown(map[page]);
+    // Fallback: show homepage again
+    function showHome() {
+      content.innerHTML = `
+        <article>
+          <h2>Welcome!</h2>
+          <p>This is a minimalist retro-style Markdown-powered site.</p>
+        </article>
+      `;
+    }
+
+    // Fallback for direct access (e.g., opening /blog.md directly)
+    if (location.pathname.endsWith('.md')) {
+      const path = location.pathname.split('/').pop();
+      loadMarkdown(path);
+    } else {
+      showHome();
     }
   </script>
 </body>
