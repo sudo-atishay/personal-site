@@ -3,20 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>💾 Atishay Jain</title>
+  <title>Atishay Jain</title>
   <link rel="stylesheet" href="./index.css" />
+
+  <!-- 🎓 Research-style serif font -->
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    /* Inline fallback if CSS fails */
-    body { background:#000; color:#ddd; font-family:Georgia,serif; }
+    body {
+      background: #000;
+      color: #ddd;
+      font-family: "EB Garamond", Georgia, serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #222;
+    }
+
+    header h1 a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      margin-left: 1rem;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      transition: opacity 0.3s ease;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid #222;
+      color: #777;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Atishay Jain</h1>
+    <h1><a href="./" id="home-link">Atishay Jain</a></h1>
     <nav>
-      <a href="./blog.md">blog</a>
-      <a href="./about.md">about</a>
-      <a href="./contact.md">contact</a>
+      <a href="about" data-md="about.md">about</a>
+      <a href="blog" data-md="blog.md">blog</a>
+      <a href="contact" data-md="contact.md">contact</a>
     </nav>
   </header>
 
@@ -24,18 +71,19 @@
     <article>
       <h2>About this site!</h2>
       <p>
-        This is a small place I share about tech stuff I am using and learning. I had a earlier blog written in React which was firstly very heavy and bloated but also was not very quick to customize. [not a skill issue]. After going over some really cool blogs by people and looking at their codebases, I realized, something so simple and static like this, doesnt need to be complicated. I went with a static website generator that uses simple markdown files.
+        This is a small place where I share about tech stuff I’m using and learning. 
+        I previously had a blog written in React which was heavy and not quick to customize. 
+        After exploring some really cool minimalist blogs and codebases, I realized something this simple 
+        doesn’t need complexity. So, I went with a static site setup using plain HTML, CSS, and Markdown.
       </p>
     </article>
   </main>
 
   <footer>
-    <p>© 2025 </p>
+    <p>© 2025</p>
   </footer>
 
-  <!-- Markdown parser -->
   <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
-
   <script>
     const content = document.getElementById('content');
     const converter = new showdown.Converter({
@@ -45,10 +93,10 @@
       tasklists: true
     });
 
-    // Load Markdown and convert to HTML
-    async function loadMarkdown(path) {
+    // Load Markdown dynamically from /content folder
+    async function loadMarkdown(file) {
       try {
-        const res = await fetch(path);
+        const res = await fetch(`./content/${file}`);
         if (!res.ok) throw new Error('File not found');
         const text = await res.text();
         const html = converter.makeHtml(text);
@@ -59,7 +107,7 @@
         }, 100);
         window.scrollTo(0, 0);
       } catch (err) {
-        content.innerHTML = `<p style="color:#f55;">⚠️ Unable to load ${path}</p>`;
+        content.innerHTML = `<p style="color:#f55;">⚠️ Unable to load ${file}</p>`;
       }
     }
 
@@ -67,34 +115,48 @@
     document.querySelectorAll('nav a').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
-        const path = e.target.getAttribute('href');
-        loadMarkdown(path);
-        window.history.pushState({ path }, '', path);
+        const file = e.target.dataset.md;
+        loadMarkdown(file);
+        window.history.pushState({ file }, '', e.target.getAttribute('href'));
       });
     });
 
-    // Browser back/forward navigation
-    window.addEventListener('popstate', e => {
-      if (e.state && e.state.path) loadMarkdown(e.state.path);
-      else showHome();
-    });
-
-    // Fallback: show homepage again
-    function showHome() {
+    // Handle home click
+    document.getElementById('home-link').addEventListener('click', e => {
+      e.preventDefault();
+      window.history.pushState({}, '', './');
       content.innerHTML = `
         <article>
-          <h2>Welcome!</h2>
-          <p>This is a minimalist retro-style Markdown-powered site.</p>
+          <h2>About this site!</h2>
+          <p>
+            This is a small place where I share about tech stuff I’m using and learning. 
+            I previously had a blog written in React which was heavy and not quick to customize. 
+            After exploring some really cool minimalist blogs and codebases, I realized something this simple 
+            doesn’t need complexity. So, I went with a static site setup using plain HTML, CSS, and Markdown.
+          </p>
         </article>
       `;
-    }
+    });
 
-    // Fallback for direct access (e.g., opening /blog.md directly)
-    if (location.pathname.endsWith('.md')) {
-      const path = location.pathname.split('/').pop();
-      loadMarkdown(path);
-    } else {
-      showHome();
+    // Handle browser back/forward
+    window.addEventListener('popstate', e => {
+      if (e.state && e.state.file) {
+        loadMarkdown(e.state.file);
+      } else {
+        document.getElementById('home-link').click();
+      }
+    });
+
+    // Detect direct URL access like /about or /blog
+    const currentPath = location.pathname.split('/').pop();
+    if (currentPath && currentPath !== 'index.html' && currentPath !== '') {
+      const page = currentPath.replace('/', '');
+      const map = {
+        'about': 'about.md',
+        'blog': 'blog.md',
+        'contact': 'contact.md'
+      };
+      if (map[page]) loadMarkdown(map[page]);
     }
   </script>
 </body>
