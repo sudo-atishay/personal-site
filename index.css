@@ -1,17 +1,12 @@
-/* === Retro Research Theme === */
-
-/* Font setup */
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600&display=swap');
+/* === Bear Blog Inspired Theme === */
 
 :root {
-  --bg: #0b0b0b;
-  --bg-alt: #111;
-  --text: #dcd3c8;
-  --text-light: #f2ede6;
-  --accent: #82b1ff;
-  --accent-hover: #a7c5ff;
-  --secondary: #f3b964;
-  --border: #222;
+  --bg: #2d3748;
+  --text: #e2e8f0;
+  --text-secondary: #cbd5e0;
+  --link: #81a1c1;
+  --link-hover: #88c0d0;
+  --border: #4a5568;
 }
 
 * {
@@ -25,41 +20,44 @@ html {
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: "EB Garamond", serif;
-  font-size: 1.05rem;
+  font-family: monospace;
+  font-size: 1rem;
   line-height: 1.7;
   margin: 0;
   padding: 0;
-}
-
-/* Header */
-header {
-  background-color: var(--bg-alt);
-  padding: 1rem 2rem;
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
 h1, h2, h3 {
-  font-family: "IBM Plex Sans", sans-serif;
-  color: var(--text-light);
-  letter-spacing: 0.3px;
+  font-family: monospace;
+  color: var(--text);
+  letter-spacing: 0;
   margin-bottom: 0.5rem;
   margin-top: 0;
+  font-weight: normal;
 }
 
-#home h2 {
-  margin-top: 0;
-  margin-bottom: 1rem;
+h1 {
+  font-size: 1.5rem;
 }
 
-#home {
-  padding: 4rem 2rem;
+h2 {
+  font-size: 1.3rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+a {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--link-hover);
 }
 
 /* Contact links */
@@ -71,76 +69,25 @@ h1, h2, h3 {
 }
 
 .contact-links a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1.1rem;
-  transition: color 0.2s ease, text-shadow 0.2s ease;
-  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--link);
+  text-decoration: underline;
 }
 
 .contact-links a:hover {
-  color: var(--accent-hover);
-  text-shadow: 0 0 5px rgba(130,177,255,0.4);
-}
-
-h1 a {
-  color: var(--text-light);
-  text-decoration: none;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
-}
-
-h1 a:hover {
-  color: var(--secondary);
-  text-shadow: 0 0 6px rgba(243,185,100,0.3);
-}
-
-/* Navigation */
-nav {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-nav a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease, text-shadow 0.2s ease;
-}
-
-nav a:hover {
-  color: var(--accent-hover);
-  text-shadow: 0 0 5px rgba(130,177,255,0.4);
+  color: var(--link-hover);
 }
 
 /* Sections */
 .section {
   min-height: auto;
-  padding: 3rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.section:nth-child(even) {
-  background-color: rgba(15, 15, 15, 0.3);
+  padding: 0;
+  margin-bottom: 3rem;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 100%;
   width: 100%;
   padding: 0;
-}
-
-/* Main Content */
-.container a {
-  color: var(--accent);
-  text-decoration: underline;
-}
-
-.container a:hover {
-  color: var(--secondary);
 }
 
 p {
@@ -180,18 +127,18 @@ ul, ol {
 
 .blog-post-header h2 {
   margin: 0;
-  font-size: 1.5rem;
-  color: var(--text-light);
+  font-size: 1.3rem;
+  color: var(--text);
   transition: color 0.2s ease;
 }
 
 .blog-post-header:hover h2 {
-  color: var(--accent);
+  color: var(--link);
 }
 
 .expand-arrow {
-  font-size: 1.2rem;
-  color: var(--accent);
+  font-size: 1rem;
+  color: var(--link);
   transition: transform 0.3s ease;
   user-select: none;
 }
@@ -210,8 +157,8 @@ ul, ol {
 
 .blog-post-content h1 {
   margin-top: 0;
-  font-size: 1.8rem;
-  color: var(--text-light);
+  font-size: 1.5rem;
+  color: var(--text);
 }
 
 .blog-post-content em {
@@ -220,52 +167,9 @@ ul, ol {
 
 /* Code blocks */
 code, pre {
-  background-color: #1b1b1b;
-  color: #f3b964;
-  font-family: "Courier New", monospace;
+  background-color: #1a202c;
+  color: var(--text-secondary);
+  font-family: monospace;
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  color: #888;
-  padding: 2rem;
-  border-top: 1px solid var(--border);
-  background-color: var(--bg-alt);
-}
-
-footer a {
-  color: var(--accent);
-  margin: 0 0.5rem;
-  text-decoration: none;
-}
-
-footer a:hover {
-  color: var(--secondary);
-  text-shadow: 0 0 5px rgba(243,185,100,0.3);
-}
-
-/* Responsive */
-@media (max-width: 700px) {
-  header {
-    padding: 1rem;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .section {
-    padding: 2rem 1rem;
-  }
-
-  .container {
-    padding: 0;
-  }
 }
