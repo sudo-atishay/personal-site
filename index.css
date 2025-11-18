@@ -215,8 +215,7 @@ ul, ol {
 }
 
 .blog-post-content em {
-  color: #999;
-  font-size: 0.9rem;
+  display: none;
 }
 
 /* Code blocks */
