@@ -60,7 +60,7 @@
         
         for (const post of blogPosts) {
           try {
-            const postRes = await fetch(`./content/posts/${post}`);
+            const postRes = await fetch(`./content/${post}`);
             const postText = await postRes.text();
             const postHtml = converter.makeHtml(postText);
             
