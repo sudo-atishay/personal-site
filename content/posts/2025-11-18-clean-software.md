@@ -1,7 +1,5 @@
 # Clean Software and Simple Tools
 
-*November 18, 2025*
-
 I've been drawn more and more toward software that feels fast, focused, and does only what it needs to.  
 There's something refreshing about using tools that just **launch instantly** and **get out of your way**.
 
