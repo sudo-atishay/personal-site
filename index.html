@@ -6,76 +6,48 @@
   <title>Atishay Jain</title>
   <link rel="stylesheet" href="./index.css" />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      background: #000;
-      color: #ddd;
-      font-family: "EB Garamond", Georgia, serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #222;
-    }
-
-    header h1 a {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    nav a {
-      color: #ccc;
-      text-decoration: none;
-      margin-left: 1rem;
-      transition: color 0.2s;
-    }
-
-    nav a:hover {
-      color: #fff;
-    }
-
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      transition: opacity 0.3s ease;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 0;
-      border-top: 1px solid #222;
-      color: #777;
-    }
-  </style>
 </head>
 <body>
   <header>
-    <h1><a href="./" id="home-link">Atishay Jain</a></h1>
+    <h1><a href="#home">Atishay Jain</a></h1>
     <nav>
-      <a href="#about" data-md="about.md">about</a>
-      <a href="#blog" data-md="blog.md">blog</a>
-      <a href="#contact" data-md="contact.md">contact</a>
+      <a href="#home">home</a>
+      <a href="#blog">blog</a>
     </nav>
   </header>
 
-  <main id="content">
-    <article>
-      <h2>About this site!</h2>
-      <p>
-        This is a small place where I share about tech stuff I’m using and learning. 
-        I previously had a blog written in React which was heavy and not quick to customize. 
-        After exploring some really cool minimalist blogs and codebases, I realized something this simple 
-        doesn’t need complexity. So, I went with a static site setup using plain HTML, CSS, and Markdown.
-      </p>
-    </article>
-  </main>
+  <!-- HOME/ABOUT SECTION -->
+  <section id="home" class="section">
+    <div class="container">
+      <article>
+        <h2>Hey, I'm Atishay 👋</h2>
+        <p>
+          I'm a Cloud and Data Security Analyst based in the US with a Master's degree in Software Engineering. 
+          I'm passionate about security, cloud infrastructure, and building things that matter. 
+          Outside of work, I'm an avid runner — been practicing for 6+ years and it keeps me grounded.
+        </p>
+        <h3>About this site</h3>
+        <p>
+          This is my small corner of the internet where I share thoughts on tech, security, and things I'm learning. 
+          I previously had a blog built with React, but it felt heavy and overcomplicated for what I needed. 
+          After exploring minimalist blogs and clean codebases, I realized simple is better. 
+          So I rebuilt this with plain HTML, CSS, and Markdown — fast, focused, and easy to maintain.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:atishay2305@gmail.com" target="_blank">Email</a>
+          <a href="https://github.com/sudo-atishay" target="_blank">GitHub</a>
+          <a href="https://linkedin.com/in/atishay23" target="_blank">LinkedIn</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- BLOG SECTION -->
+  <section id="blog" class="section">
+    <div class="container">
+      <div id="blog-content"></div>
+    </div>
+  </section>
 
   <footer>
     <p>© 2025</p>
@@ -83,7 +55,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
   <script>
-    const content = document.getElementById('content');
     const converter = new showdown.Converter({
       tables: true,
       simplifiedAutoLink: true,
@@ -91,51 +62,85 @@
       tasklists: true
     });
 
-    async function loadMarkdown(file) {
+    // List of blog post files (add new posts here)
+    const blogPosts = [
+      '2025-11-18-clean-software.md',
+      '2025-11-15-why-write.md',
+      '2025-11-10-lorem-ipsum.md'
+    ];
+
+    // Load content from markdown files
+    async function loadContent() {
       try {
-        const res = await fetch(`./content/${file}`);
-        if (!res.ok) throw new Error('File not found');
-        const text = await res.text();
-        const html = converter.makeHtml(text);
-        content.style.opacity = 0;
-        setTimeout(() => {
-          content.innerHTML = html;
-          content.style.opacity = 1;
-        }, 100);
-      } catch (err) {
-        content.innerHTML = `<p style="color:#f55;">⚠️ Could not load ${file}</p>`;
-      }
-    }
-
-    function handleRoute() {
-      const hash = window.location.hash.replace('#', '');
-      if (hash) {
-        const map = {
-          'about': 'about.md',
-          'blog': 'blog.md',
-          'contact': 'contact.md'
-        };
-        if (map[hash]) {
-          loadMarkdown(map[hash]);
+        // Load individual blog posts
+        const blogContainer = document.getElementById('blog-content');
+        blogContainer.innerHTML = '<h1>Blog</h1>';
+        
+        for (const post of blogPosts) {
+          try {
+            const postRes = await fetch(`./content/posts/${post}`);
+            const postText = await postRes.text();
+            const postHtml = converter.makeHtml(postText);
+            
+            // Extract title from the first h1 tag
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = postHtml;
+            const titleElement = tempDiv.querySelector('h1');
+            const title = titleElement ? titleElement.textContent : 'Untitled';
+            
+            // Remove the h1 from the content since we'll show it separately
+            if (titleElement) {
+              titleElement.remove();
+            }
+            
+            // Create collapsible post wrapper
+            const postDiv = document.createElement('div');
+            postDiv.className = 'blog-post';
+            
+            const postHeader = document.createElement('div');
+            postHeader.className = 'blog-post-header';
+            postHeader.innerHTML = `
+              <h2>${title}</h2>
+              <span class="expand-arrow">▼</span>
+            `;
+            
+            const postContent = document.createElement('div');
+            postContent.className = 'blog-post-content';
+            postContent.innerHTML = tempDiv.innerHTML;
+            
+            postHeader.addEventListener('click', () => {
+              const isExpanded = postContent.classList.toggle('expanded');
+              postHeader.querySelector('.expand-arrow').textContent = isExpanded ? '▲' : '▼';
+            });
+            
+            postDiv.appendChild(postHeader);
+            postDiv.appendChild(postContent);
+            blogContainer.appendChild(postDiv);
+          } catch (err) {
+            console.error(`Error loading post ${post}:`, err);
+          }
         }
-      } else {
-        // default home
-        content.innerHTML = `
-          <article>
-            <h2>About this site!</h2>
-            <p>
-              This is a small place where I share about tech stuff I’m using and learning. 
-              I previously had a blog written in React which was heavy and not quick to customize. 
-              After exploring some really cool minimalist blogs and codebases, I realized something this simple 
-              doesn’t need complexity. So, I went with a static site setup using plain HTML, CSS, and Markdown.
-            </p>
-          </article>
-        `;
+      } catch (err) {
+        console.error('Error loading content:', err);
       }
     }
 
-    window.addEventListener('hashchange', handleRoute);
-    window.addEventListener('load', handleRoute);
+    // Smooth scroll behavior
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Load all content on page load
+    window.addEventListener('load', loadContent);
   </script>
 </body>
 </html>

@@ -14,6 +14,14 @@
   --border: #222;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--bg);
   color: var(--text);
@@ -29,6 +37,12 @@ header {
   background-color: var(--bg-alt);
   padding: 1rem 2rem;
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 h1, h2, h3 {
@@ -36,6 +50,38 @@ h1, h2, h3 {
   color: var(--text-light);
   letter-spacing: 0.3px;
   margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+#home h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+#home {
+  padding: 4rem 2rem;
+}
+
+/* Contact links */
+.contact-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.contact-links a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.contact-links a:hover {
+  color: var(--accent-hover);
+  text-shadow: 0 0 5px rgba(130,177,255,0.4);
 }
 
 h1 a {
@@ -51,12 +97,13 @@ h1 a:hover {
 
 /* Navigation */
 nav {
-  margin-top: 0.4rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 nav a {
   color: var(--accent);
-  margin-right: 1rem;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease, text-shadow 0.2s ease;
@@ -67,24 +114,32 @@ nav a:hover {
   text-shadow: 0 0 5px rgba(130,177,255,0.4);
 }
 
-/* Main Content */
-main {
-  max-width: 750px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background-color: rgba(20, 20, 20, 0.6);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.02);
-  transition: background 0.4s ease;
+/* Sections */
+.section {
+  min-height: auto;
+  padding: 3rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-main a {
+.section:nth-child(even) {
+  background-color: rgba(15, 15, 15, 0.3);
+}
+
+.container {
+  max-width: 900px;
+  width: 100%;
+  padding: 0;
+}
+
+/* Main Content */
+.container a {
   color: var(--accent);
   text-decoration: underline;
 }
 
-main a:hover {
+.container a:hover {
   color: var(--secondary);
 }
 
@@ -97,6 +152,71 @@ p {
 ul, ol {
   margin-left: 2rem;
   color: var(--text);
+}
+
+/* Blog posts styling */
+.blog-post {
+  margin-bottom: 1rem;
+  padding-bottom: 0;
+  border-bottom: 1px solid rgba(68, 68, 68, 0.4);
+}
+
+.blog-post:last-child {
+  border-bottom: none;
+}
+
+.blog-post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 1rem 0;
+  transition: all 0.2s ease;
+}
+
+.blog-post-header:hover {
+  color: var(--accent);
+}
+
+.blog-post-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--text-light);
+  transition: color 0.2s ease;
+}
+
+.blog-post-header:hover h2 {
+  color: var(--accent);
+}
+
+.expand-arrow {
+  font-size: 1.2rem;
+  color: var(--accent);
+  transition: transform 0.3s ease;
+  user-select: none;
+}
+
+.blog-post-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  padding: 0;
+}
+
+.blog-post-content.expanded {
+  max-height: 5000px;
+  padding-bottom: 1.5rem;
+}
+
+.blog-post-content h1 {
+  margin-top: 0;
+  font-size: 1.8rem;
+  color: var(--text-light);
+}
+
+.blog-post-content em {
+  color: #999;
+  font-size: 0.9rem;
 }
 
 /* Code blocks */
@@ -112,9 +232,8 @@ code, pre {
 footer {
   text-align: center;
   color: #888;
-  padding: 1rem;
+  padding: 2rem;
   border-top: 1px solid var(--border);
-  margin-top: 3rem;
   background-color: var(--bg-alt);
 }
 
@@ -129,21 +248,25 @@ footer a:hover {
   text-shadow: 0 0 5px rgba(243,185,100,0.3);
 }
 
-/* Fade transition */
-#content {
-  transition: opacity 0.4s ease-in-out;
-}
-
 /* Responsive */
 @media (max-width: 700px) {
   header {
     padding: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
   }
-  main {
-    padding: 1rem;
+
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
   }
-  nav a {
-    display: inline-block;
-    margin: 0.25rem 0.75rem 0.25rem 0;
+
+  .section {
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    padding: 0;
   }
 }
